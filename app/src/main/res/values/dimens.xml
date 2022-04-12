@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="post_avatar_size">48dp</dimen>
+    <dimen name="common_spacing">16dp</dimen>
+    <dimen name="iconTxtSize">16sp</dimen>
+    <dimen name="img_txt_space">4dp</dimen>
+    <dimen name="between_btn_space">36dp</dimen>
+</resources>

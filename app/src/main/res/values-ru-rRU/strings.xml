@@ -2,4 +2,9 @@
 <resources>
     <string name="app_name">NewMedia</string>
     <string name="nmedia">НМедиа</string>
+    <string name="post_avatar">Аватар поста</string>
+    <string name="menu_icon">Иконка меню</string>
+    <string name="like_icon">Иконка лайка</string>
+    <string name="share_icon">Иконка поделиться</string>
+    <string name="views_screen">Просмотры</string>
 </resources>
