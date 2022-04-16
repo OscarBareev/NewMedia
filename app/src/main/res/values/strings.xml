@@ -6,6 +6,4 @@
     <string name="like_icon">like icon</string>
     <string name="share_icon">Share icon</string>
     <string name="views_screen">Views screen</string>
-    <string name="_5" translatable="false">5</string>
-    <string name="_10" translatable="false">10</string>
 </resources>
