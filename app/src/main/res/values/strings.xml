@@ -6,4 +6,11 @@
     <string name="like_icon">like icon</string>
     <string name="share_icon">Share icon</string>
     <string name="views_screen">Views screen</string>
+    <string name="edit">Edit</string>
+    <string name="remove">Remove</string>
+    <string name="post_text">Post Text</string>
+    <string name="empty_content">Content can\'t be empty</string>
+    <string name="edit_text">Edit text</string>
+    <string name="cancel_button">Cancel button</string>
+    <string name="edit_arrow">Edit arrow</string>
 </resources>
