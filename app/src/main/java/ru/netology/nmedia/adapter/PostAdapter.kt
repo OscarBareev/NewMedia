@@ -44,13 +44,9 @@ class PostViewHolder(
             contentTxt.text = post.content
 
 
-            likesBtn.setImageResource(
-                if (post.likedByMe) R.drawable.ic_baseline_favorite_24 else R.drawable.ic_baseline_favorite_border_24
-            )
-
-
-            likesTxt.text = transformCount(post.likesCount)
-            shareTxt.text = transformCount(post.shareCount)
+            likesBtn.isChecked = post.likedByMe
+            likesBtn.text = transformCount(post.likesCount)
+            shareBtn.text = transformCount(post.shareCount)
 
             likesBtn.setOnClickListener {
                 onInteractionListener.onLike(post)
