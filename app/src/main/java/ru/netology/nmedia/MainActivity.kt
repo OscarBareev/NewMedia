@@ -1,9 +1,7 @@
 package ru.netology.nmedia
 
+import android.content.Intent
 import android.os.Bundle
-import android.text.TextUtils
-import android.view.View
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import ru.netology.nmedia.databinding.ActivityMainBinding
 import ru.netology.nmedia.viewmodel.PostViewModel
@@ -11,7 +9,6 @@ import androidx.activity.viewModels
 import ru.netology.nmedia.adapter.OnInteractionListener
 import ru.netology.nmedia.adapter.PostAdapter
 import ru.netology.nmedia.dto.Post
-import ru.netology.nmedia.util.AndroidUtils
 
 class MainActivity : AppCompatActivity() {
 
@@ -24,6 +21,12 @@ class MainActivity : AppCompatActivity() {
 
 
         val viewModel: PostViewModel by viewModels()
+
+        val newPostLauncher = registerForActivityResult(NewPostResultContract()) { result ->
+            result ?: return@registerForActivityResult
+            viewModel.changeContent(result)
+            viewModel.save()
+        }
 
 
         val adapter = PostAdapter(object : OnInteractionListener {
@@ -42,6 +45,17 @@ class MainActivity : AppCompatActivity() {
             }
 
             override fun onShare(post: Post) {
+
+                val intent = Intent().apply {
+                    action = Intent.ACTION_SEND
+                    putExtra(Intent.EXTRA_TEXT, post.content)
+                    type = "text/plain"
+                }
+
+                val shareIntent =
+                    Intent.createChooser(intent, getString(R.string.chooser_share_post))
+                startActivity(shareIntent)
+
                 viewModel.shareById(post.id)
             }
         })
@@ -57,48 +71,11 @@ class MainActivity : AppCompatActivity() {
             if (post.id == 0L) {
                 return@observe
             }
-            with(binding.contentEdTxt) {
-                requestFocus()
-                setText(post.content)
-            }
-            binding.group.visibility = View.VISIBLE
-
+            newPostLauncher.launch(post.content)
         }
 
-
-        binding.cancelBtn.setOnClickListener {
-            with(binding.contentEdTxt) {
-                setText("")
-                clearFocus()
-                AndroidUtils.hideKeyboard(this)
-                if (binding.group.visibility == View.VISIBLE) {
-                    binding.group.visibility = View.GONE
-                }
-            }
-        }
-
-
-        binding.saveBtn.setOnClickListener {
-            with(binding.contentEdTxt) {
-                if (TextUtils.isEmpty(text)) {
-                    Toast.makeText(
-                        this@MainActivity,
-                        R.string.empty_content,
-                        Toast.LENGTH_SHORT
-                    ).show()
-                    return@setOnClickListener
-                }
-
-                viewModel.changeContent(text.toString())
-                viewModel.save()
-
-                setText("")
-                clearFocus()
-                AndroidUtils.hideKeyboard(this)
-                if (binding.group.visibility == View.VISIBLE) {
-                    binding.group.visibility = View.GONE
-                }
-            }
+        binding.fab.setOnClickListener {
+            newPostLauncher.launch(null)
         }
 
 

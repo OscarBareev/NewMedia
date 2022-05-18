@@ -13,4 +13,8 @@
     <string name="edit_text">Edit text</string>
     <string name="cancel_button">Cancel button</string>
     <string name="edit_arrow">Edit arrow</string>
+    <string name="error_empty_content">Content can\'t be empty</string>
+    <string name="chooser_share_post">Share post</string>
+    <string name="add_post">Add post</string>
+    <string name="save">Save</string>
 </resources>

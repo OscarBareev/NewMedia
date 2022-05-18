@@ -14,4 +14,8 @@
     <string name="edit_text">Редактировать текст</string>
     <string name="cancel_button">Кнопка отмены</string>
     <string name="edit_arrow">Иконка редактирования</string>
+    <string name="error_empty_content">Контент не может быть пустым</string>
+    <string name="chooser_share_post">Поделиться постом</string>
+    <string name="add_post">Добавить пост</string>
+    <string name="save">Сохранить</string>
 </resources>

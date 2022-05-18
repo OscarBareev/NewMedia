@@ -5,4 +5,5 @@
     <dimen name="iconTxtSize">16sp</dimen>
     <dimen name="img_txt_space">4dp</dimen>
     <dimen name="between_btn_space">36dp</dimen>
+    <dimen name="fab_margin">16dp</dimen>
 </resources>
