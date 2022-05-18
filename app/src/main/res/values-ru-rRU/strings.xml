@@ -18,4 +18,5 @@
     <string name="chooser_share_post">Поделиться постом</string>
     <string name="add_post">Добавить пост</string>
     <string name="save">Сохранить</string>
+    <string name="random_image">Случайная картинка</string>
 </resources>

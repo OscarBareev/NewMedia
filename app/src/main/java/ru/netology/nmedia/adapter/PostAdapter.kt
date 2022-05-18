@@ -1,6 +1,10 @@
 package ru.netology.nmedia.adapter
 
+import android.content.Intent
+import android.net.Uri
 import android.view.LayoutInflater
+import android.view.View.GONE
+import android.view.View.VISIBLE
 import android.view.ViewGroup
 import android.widget.PopupMenu
 import androidx.recyclerview.widget.DiffUtil
@@ -55,6 +59,28 @@ class PostViewHolder(
             shareBtn.setOnClickListener {
                 onInteractionListener.onShare(post)
             }
+
+
+
+            if (post.video.trim().isNotBlank()) {
+                binding.group.visibility = VISIBLE
+
+                val intent = Intent(Intent.ACTION_VIEW, Uri.parse(post.video.trim()))
+                val shareIntent = Intent.createChooser(intent, "App for video")
+
+                videoImg.setOnClickListener {
+                    it.context.startActivity(shareIntent)
+                }
+
+                playBtn.setOnClickListener {
+                    it.context.startActivity(shareIntent)
+                }
+            } else {
+                binding.group.visibility = GONE
+            }
+
+
+
 
 
             menuBtn.setOnClickListener {

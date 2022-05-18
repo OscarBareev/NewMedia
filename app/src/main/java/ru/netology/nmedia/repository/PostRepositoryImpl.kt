@@ -24,7 +24,8 @@ class PostRepositoryImpl : PostRepository {
             published = "21 мая в 18:36",
             likedByMe = false,
             likesCount = 5,
-            shareCount = 10
+            shareCount = 10,
+            video = "https://www.youtube.com/watch?v=WhWc3b3KhnY"
         ),
         Post(
             id = nextId++,
@@ -42,7 +43,8 @@ class PostRepositoryImpl : PostRepository {
             published = "21 мая в 18:36",
             likedByMe = false,
             likesCount = 1,
-            shareCount = 100
+            shareCount = 100,
+            video = "https://www.youtube.com/watch?v=mvmHfp-YtCo&t=81s"
         ),
         Post(
             id = nextId++,
@@ -60,7 +62,8 @@ class PostRepositoryImpl : PostRepository {
             published = "21 мая в 18:36",
             likedByMe = false,
             likesCount = 45,
-            shareCount = 76
+            shareCount = 76,
+            video = "https://www.youtube.com/watch?v=WhWc3b3KhnY"
         ),
         Post(
             id = nextId++,

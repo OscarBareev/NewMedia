@@ -73,6 +73,51 @@
         app:layout_constraintTop_toBottomOf="@id/topBarrier"
         tools:text="@sample/posts.json/data/content" />
 
+
+    <androidx.constraintlayout.widget.Group
+        android:id="@+id/group"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        app:constraint_referenced_ids="middleBarrier,videoImg, playBtn" />
+
+
+    <androidx.constraintlayout.widget.Barrier
+        android:id="@+id/middleBarrier"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:barrierDirection="bottom"
+        app:barrierMargin="@dimen/common_spacing"
+        app:constraint_referenced_ids="contentTxt" />
+
+    <ImageView
+        android:id="@+id/videoImg"
+        android:layout_width="match_parent"
+        android:layout_height="230dp"
+        android:background="#ffd942"
+        android:contentDescription="@string/random_image"
+        android:src="@drawable/ic_baseline_check_box_outline_blank_24"
+        app:layout_constraintBottom_toTopOf="@id/lowBarrier"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/middleBarrier"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <com.google.android.material.button.MaterialButton
+
+        android:id="@+id/playBtn"
+        style="@style/Widget.App.Button.OutlinedButton.IconOnly"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@android:color/transparent"
+        app:icon="@drawable/ic_baseline_play_circle_outline_24"
+        app:iconTint="@color/selector_like_color"
+        app:layout_constraintBottom_toBottomOf="@id/videoImg"
+        app:layout_constraintEnd_toEndOf="@id/videoImg"
+        app:layout_constraintStart_toStartOf="@id/videoImg"
+        app:layout_constraintTop_toTopOf="@id/videoImg" />
+
+
     <androidx.constraintlayout.widget.Barrier
         android:id="@+id/lowBarrier"
         android:layout_width="wrap_content"
@@ -103,34 +148,23 @@
         android:layout_height="wrap_content"
         android:checkable="false"
         android:contentDescription="@string/share_icon"
-        android:src="@drawable/ic_baseline_share_24"
         app:icon="@drawable/ic_baseline_share_24"
         app:layout_constraintStart_toEndOf="@id/likesBtn"
         app:layout_constraintTop_toBottomOf="@id/lowBarrier"
         tools:text="@sample/posts.json/data/likes" />
 
 
-    <ImageView
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/viewsImg"
+        style="@style/MyButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
         android:contentDescription="@string/views_screen"
-        android:src="@drawable/ic_baseline_visibility_24"
-        app:layout_constraintBottom_toBottomOf="@id/viewsTxt"
-        app:layout_constraintEnd_toStartOf="@id/viewsTxt"
-        app:layout_constraintTop_toTopOf="@id/viewsTxt" />
-
-
-    <TextView
-        android:id="@+id/viewsTxt"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/common_spacing"
-        android:text="5"
-        android:textSize="@dimen/iconTxtSize"
+        app:icon="@drawable/ic_baseline_visibility_24"
+        app:layout_constraintBottom_toBottomOf="@id/shareBtn"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/lowBarrier" />
+        app:layout_constraintTop_toTopOf="@id/shareBtn"
+        tools:text="@sample/posts.json/data/likes" />
 
 
     <View
