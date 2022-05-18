@@ -32,7 +32,6 @@
         app:layout_constraintVertical_chainStyle="packed"
         tools:text="@sample/posts.json/data/author" />
 
-
     <TextView
         android:id="@+id/publishedTxt"
         android:layout_width="0dp"
@@ -43,13 +42,16 @@
         app:layout_constraintTop_toBottomOf="@id/authorTxt"
         tools:text="@sample/posts.json/data/published" />
 
-    <ImageButton
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/menuBtn"
+
+        style="@style/Widget.App.Button.OutlinedButton.IconOnly"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:background="@android:color/transparent"
         android:contentDescription="@string/menu_icon"
-        android:src="@drawable/ic_baseline_more_vert_24"
+        app:icon="@drawable/ic_baseline_more_vert_24"
+        app:layout_constraintBottom_toBottomOf="@+id/publishedTxt"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@id/authorTxt" />
 
@@ -79,48 +81,34 @@
         app:barrierMargin="@dimen/common_spacing"
         app:constraint_referenced_ids="contentTxt" />
 
-    <ImageView
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/likesBtn"
+        style="@style/MyButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/common_spacing"
+        android:button="@drawable/selector_like"
+        android:checkable="true"
         android:contentDescription="@string/like_icon"
-        android:src="@drawable/ic_baseline_favorite_border_24"
+        app:icon="@drawable/selector_like"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/lowBarrier" />
+        app:layout_constraintTop_toBottomOf="@id/lowBarrier"
+        tools:checked="@sample/posts.json/data/likedByMe"
+        tools:text="@sample/posts.json/data/likes" />
 
-    <TextView
-        android:id="@+id/likesTxt"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/img_txt_space"
-        android:text="10"
-        android:textSize="@dimen/iconTxtSize"
-        app:layout_constraintBottom_toBottomOf="@id/likesBtn"
-        app:layout_constraintStart_toEndOf="@id/likesBtn"
-        app:layout_constraintTop_toTopOf="@id/likesBtn" />
 
-    <ImageView
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/shareBtn"
+        style="@style/MyButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/between_btn_space"
-        android:layout_marginTop="@dimen/common_spacing"
+        android:checkable="false"
         android:contentDescription="@string/share_icon"
         android:src="@drawable/ic_baseline_share_24"
-        app:layout_constraintStart_toStartOf="@id/likesTxt"
-        app:layout_constraintTop_toBottomOf="@id/lowBarrier" />
+        app:icon="@drawable/ic_baseline_share_24"
+        app:layout_constraintStart_toEndOf="@id/likesBtn"
+        app:layout_constraintTop_toBottomOf="@id/lowBarrier"
+        tools:text="@sample/posts.json/data/likes" />
 
-    <TextView
-        android:id="@+id/shareTxt"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/img_txt_space"
-        android:text="5"
-        android:textSize="@dimen/iconTxtSize"
-        app:layout_constraintBottom_toBottomOf="@id/shareBtn"
-        app:layout_constraintStart_toEndOf="@id/shareBtn"
-        app:layout_constraintTop_toTopOf="@id/shareBtn" />
 
     <ImageView
         android:id="@+id/viewsImg"
@@ -152,6 +140,6 @@
         android:background="@color/red"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/likesTxt" />
+        app:layout_constraintTop_toBottomOf="@id/likesBtn" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
