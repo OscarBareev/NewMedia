@@ -1,7 +1,6 @@
-package ru.netology.nmedia
+package ru.netology.nmedia.activity
 
 import android.app.Activity
-import android.app.Instrumentation
 import android.content.Context
 import android.content.Intent
 import androidx.activity.result.contract.ActivityResultContract
