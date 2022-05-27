@@ -20,6 +20,7 @@ interface OnInteractionListener {
     fun onShare(post: Post) {}
     fun onEdit(post: Post) {}
     fun onRemove(post: Post) {}
+    fun onCard(post: Post){}
 }
 
 class PostAdapter(
@@ -78,6 +79,12 @@ class PostViewHolder(
             } else {
                 binding.group.visibility = GONE
             }
+
+            itemView.setOnClickListener {
+                onInteractionListener.onCard(post)
+            }
+
+
 
 
 
