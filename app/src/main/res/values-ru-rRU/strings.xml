@@ -19,4 +19,5 @@
     <string name="add_post">Добавить пост</string>
     <string name="save">Сохранить</string>
     <string name="random_image">Случайная картинка</string>
+    <string name="text_here">Ваш текст</string>
 </resources>
