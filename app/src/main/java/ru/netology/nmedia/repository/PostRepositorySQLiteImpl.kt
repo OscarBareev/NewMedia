@@ -6,7 +6,7 @@ import ru.netology.nmedia.dao.PostDao
 import ru.netology.nmedia.dto.Post
 
 class PostRepositorySQLiteImpl(
-    dao: PostDao
+    private val dao: PostDao
 ) : PostRepository {
 
     private var posts = emptyList<Post>()
@@ -23,19 +23,18 @@ class PostRepositorySQLiteImpl(
     override fun getAll(): LiveData<List<Post>> = data
 
     override fun likeById(id: Long) {
+        dao.likeById(id)
         posts = posts.map {
-            if (it.id != id) {
-                it
-            } else {
-                val count = if (it.likedByMe) it.likesCount - 1 else it.likesCount + 1
-                it.copy(likedByMe = !it.likedByMe, likesCount = count)
-            }
+            if (it.id != id) it else it.copy(
+                likedByMe = !it.likedByMe,
+                likesCount = if (it.likedByMe) it.likesCount - 1 else it.likesCount + 1
+            )
         }
         data.value = posts
-
     }
 
     override fun shareById(id: Long) {
+        dao.shareById(id)
         posts = posts.map {
             if (it.id != id) {
                 it
@@ -45,38 +44,26 @@ class PostRepositorySQLiteImpl(
             }
         }
         data.value = posts
-
     }
 
     override fun removeById(id: Long) {
+        dao.removeById(id)
         posts = posts.filter { it.id != id }
         data.value = posts
-
     }
 
 
     override fun save(post: Post) {
-        if (post.id == 0L) {
-            posts = listOf(
-                post.copy(
-                    id = nextId++,
-                    author = "Me",
-                    likedByMe = false,
-                    published = "now"
-                )
-            ) + posts
-            data.value = posts
-
-            return
+        val id = post.id
+        val saved = dao.save(post)
+        posts = if (id == 0L) {
+            listOf(saved) + posts
+        } else {
+            posts.map {
+                if (it.id != id) it else saved
+            }
         }
-
-
-        posts = posts.map {
-            if (it.id != post.id) it else it.copy(content = post.content)
-        }
-
         data.value = posts
-
     }
 
 
