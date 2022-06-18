@@ -20,4 +20,11 @@
     <string name="save">Сохранить</string>
     <string name="random_image">Случайная картинка</string>
     <string name="text_here">Ваш текст</string>
+    <string name="google_api_unavailable">Сервисы Goodle недоступны</string>
+    <string name="notification_user_liked">%1$s поставил лайк посту %2$s</string>
+    <string name="channel_remote_name">Уведомления с сервера</string>
+    <string name="channel_remote_description">Уведомления с удалённого сервера</string>
+    <string name="default_notification">Вы получили новое уведомление</string>
+    <string name="notification_new_post">%1$s создал новый пост</string>
+
 </resources>

@@ -19,4 +19,12 @@
     <string name="save">Save</string>
     <string name="random_image">random image</string>
     <string name="text_here">Text here</string>
+    <string name="google_api_unavailable">Google api unavailable</string>
+    <string name="notification_user_liked">User %1$s liked %2$s\'s post</string>
+    <string name="notification_new_post">User %1$s created new post</string>
+
+
+    <string name="channel_remote_name">Server notifications</string>
+    <string name="channel_remote_description">Notifications from remote server</string>
+    <string name="default_notification">You have received a new notification</string>
 </resources>

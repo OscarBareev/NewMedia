@@ -2,16 +2,25 @@ package ru.netology.nmedia.activity
 
 import android.content.Intent
 import android.os.Bundle
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.findNavController
+import com.google.android.gms.common.ConnectionResult
+import com.google.android.gms.common.GoogleApiAvailability
+import com.google.firebase.messaging.FirebaseMessaging
 import ru.netology.nmedia.R
 import ru.netology.nmedia.activity.NewPostFragment.Companion.textArg
 
-class AppActivity : AppCompatActivity(R.layout.activity_app){
+class AppActivity : AppCompatActivity(R.layout.activity_app) {
     override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+        FirebaseMessaging.getInstance().token.addOnSuccessListener {
+            println("Token is: $it")
+        }
 
         intent?.let {
-            if (it.action != Intent.ACTION_SEND){
+            if (it.action != Intent.ACTION_SEND) {
                 return@let
             }
 
@@ -25,8 +34,26 @@ class AppActivity : AppCompatActivity(R.layout.activity_app){
                 )
         }
 
-
-
-        super.onCreate(savedInstanceState)
+        checkGoogleApiAvailability()
     }
+
+
+    private fun checkGoogleApiAvailability() {
+        with(GoogleApiAvailability.getInstance()) {
+            val code = isGooglePlayServicesAvailable(this@AppActivity)
+            if (code == ConnectionResult.SUCCESS) {
+                return@with
+            }
+            if (isUserResolvableError(code)) {
+                getErrorDialog(this@AppActivity, code, 9000)?.show()
+                return
+            }
+            Toast.makeText(this@AppActivity, R.string.google_api_unavailable, Toast.LENGTH_LONG)
+                .show()
+        }
+
+
+
+    }
+
 }
