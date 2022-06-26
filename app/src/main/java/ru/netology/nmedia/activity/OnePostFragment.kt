@@ -51,7 +51,7 @@ class OnePostFragment : Fragment() {
                 publishedTxt.text = post.published
                 contentTxt.text = post.content
                 likesBtn.isChecked = post.likedByMe
-                likesBtn.text = transformCount(post.likesCount)
+                likesBtn.text = transformCount(post.likes)
                 shareBtn.text = transformCount(post.shareCount)
 
                 if (post.video.trim().isNotBlank()) {

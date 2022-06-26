@@ -50,7 +50,7 @@ class PostViewHolder(
 
 
             likesBtn.isChecked = post.likedByMe
-            likesBtn.text = transformCount(post.likesCount)
+            likesBtn.text = transformCount(post.likes)
             shareBtn.text = transformCount(post.shareCount)
 
             likesBtn.setOnClickListener {
@@ -63,7 +63,7 @@ class PostViewHolder(
 
 
 
-            if (post.video.trim().isNotBlank()) {
+            if (post.video.trim().isBlank()) {
                 binding.group.visibility = VISIBLE
 
                 val intent = Intent(Intent.ACTION_VIEW, Uri.parse(post.video.trim()))

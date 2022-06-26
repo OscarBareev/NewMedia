@@ -20,7 +20,7 @@ data class PostEntity(
     companion object {
         fun fromPost(post: Post): PostEntity =
             with(post) {
-                PostEntity(id, author, content, published, likedByMe, likesCount, shareCount, video)
+                PostEntity(id, author, content, published, likedByMe, likes, shareCount, video)
             }
     }
 
