@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.core.view.isVisible
 
 import ru.netology.nmedia.viewmodel.PostViewModel
 import androidx.fragment.app.Fragment
@@ -24,7 +25,7 @@ class FeedFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
-        savedInstanceState: Bundle?
+        savedInstanceState: Bundle?,
     ): View {
 
         val binding = FragmentFeedBinding.inflate(
@@ -82,8 +83,15 @@ class FeedFragment : Fragment() {
 
         binding.listRV.adapter = adapter
 
-        viewModel.data.observe(viewLifecycleOwner) { posts ->
-            adapter.submitList(posts)
+        viewModel.data.observe(viewLifecycleOwner) { state ->
+            adapter.submitList(state.posts)
+            binding.progress.isVisible = state.loading
+            binding.errorGroup.isVisible = state.error
+            binding.emptyText.isVisible = state.empty
+        }
+
+        binding.retryButton.setOnClickListener {
+            viewModel.loadPosts()
         }
 
         viewModel.edited.observe(viewLifecycleOwner) { post ->
@@ -96,7 +104,8 @@ class FeedFragment : Fragment() {
                     Bundle().apply {
                         textArg = post.content
                     }
-                )        }
+                )
+        }
 
         binding.fab.setOnClickListener {
             findNavController().navigate(R.id.action_feedFragment_to_newPostFragment)

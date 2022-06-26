@@ -38,8 +38,8 @@ class OnePostFragment : Fragment() {
 
         binding.onePostContainer.removeAllViews()
         PostCardBinding.inflate(layoutInflater, binding.onePostContainer, true).apply {
-            viewModel.data.map { posts ->
-                posts.find { it.id == postId }
+            viewModel.data.map { state ->
+                state.posts.find { it.id == postId }
             }.observe(viewLifecycleOwner) { post ->
                 post ?: run {
                     // Пост удалили
