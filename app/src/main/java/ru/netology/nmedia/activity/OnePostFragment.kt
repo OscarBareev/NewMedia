@@ -54,7 +54,7 @@ class OnePostFragment : Fragment() {
                 likesBtn.text = transformCount(post.likes)
                 shareBtn.text = transformCount(post.shareCount)
 
-                if (post.video.trim().isNotBlank()) {
+                if (post.video?.isNotBlank() == true) {
                     group.visibility = View.VISIBLE
                 }
 
@@ -72,7 +72,7 @@ class OnePostFragment : Fragment() {
                         }
                 }
 
-                val intent = Intent(Intent.ACTION_VIEW, Uri.parse(post.video.trim()))
+                val intent = Intent(Intent.ACTION_VIEW, Uri.parse(post.video?.trim()))
                 val shareIntent = Intent.createChooser(intent, "App for video")
 
                 videoImg.setOnClickListener {

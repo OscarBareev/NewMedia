@@ -24,7 +24,7 @@ class NewPostFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
-        savedInstanceState: Bundle?
+        savedInstanceState: Bundle?,
     ): View {
         val binding = FragmentNewPostBinding.inflate(
             inflater,
@@ -45,15 +45,11 @@ class NewPostFragment : Fragment() {
             viewModel.changeContent(binding.edit.text.toString())
             viewModel.save()
             AndroidUtils.hideKeyboard(requireView())
-            findNavController().navigateUp()
         }
-
         viewModel.postCreated.observe(viewLifecycleOwner) {
-            viewModel.loadPosts()
             findNavController().navigateUp()
+            viewModel.loadPosts()
         }
-
-
         return binding.root
     }
 

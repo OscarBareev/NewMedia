@@ -1,5 +1,6 @@
 package ru.netology.nmedia.repository
 
+import com.google.android.gms.dynamic.IFragmentWrapper
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import okhttp3.MediaType.Companion.toMediaType
@@ -10,7 +11,7 @@ import ru.netology.nmedia.dto.Post
 import java.util.concurrent.TimeUnit
 
 
-class PostRepositoryImpl: PostRepository {
+class PostRepositoryImpl : PostRepository {
     private val client = OkHttpClient.Builder()
         .connectTimeout(30, TimeUnit.SECONDS)
         .build()
@@ -36,11 +37,35 @@ class PostRepositoryImpl: PostRepository {
     }
 
     override fun likeById(id: Long) {
-        // TODO("Do this in homework")
+
+        var request: Request?
+
+
+        getAll().map {
+            if (it.id != id) {
+                it
+            } else {
+                request = when (it.likedByMe) {
+                    false -> Request.Builder()
+                        .post(gson.toJson(it).toRequestBody(jsonType))
+                        .url("${BASE_URL}/api/posts/${id}/likes")
+                        .build()
+                    true -> Request.Builder()
+                        .delete()
+                        .url("${BASE_URL}/api/posts/${id}/likes")
+                        .build()
+                }
+
+                client.newCall(request!!)
+                    .execute()
+                    .close()
+            }
+        }
     }
 
+
     override fun shareById(id: Long) {
-       // TODO("Not yet implemented")
+        // TODO("Not yet implemented")
     }
 
     override fun save(post: Post) {
