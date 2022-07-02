@@ -71,8 +71,8 @@ class PostViewModel(application: Application) : AndroidViewModel(application) {
         edited.value = edited.value?.copy(content = text)
     }
 
-    fun likeById(id: Long) {
-        thread { repository.likeById(id) }
+    fun likeById(post: Post) {
+        thread { repository.likeById(post) }
     }
 
     fun shareById(id: Long) {

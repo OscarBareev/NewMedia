@@ -29,7 +29,7 @@ class OnePostFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
-        savedInstanceState: Bundle?
+        savedInstanceState: Bundle?,
     ): View {
 
         val binding = FragmentOnePostBinding.inflate(layoutInflater, container, false)
@@ -54,12 +54,10 @@ class OnePostFragment : Fragment() {
                 likesBtn.text = transformCount(post.likes)
                 shareBtn.text = transformCount(post.shareCount)
 
-                if (post.video?.isNotBlank() == true) {
-                    group.visibility = View.VISIBLE
-                }
 
                 likesBtn.setOnClickListener {
-                    viewModel.likeById(post.id)
+                    viewModel.likeById(post)
+                    viewModel.loadPosts()
                 }
 
                 shareBtn.setOnClickListener {
@@ -72,15 +70,20 @@ class OnePostFragment : Fragment() {
                         }
                 }
 
-                val intent = Intent(Intent.ACTION_VIEW, Uri.parse(post.video?.trim()))
-                val shareIntent = Intent.createChooser(intent, "App for video")
 
-                videoImg.setOnClickListener {
-                    it.context.startActivity(shareIntent)
-                }
+                if (!post.video.isNullOrBlank()) {
+                    group.visibility = View.VISIBLE
+                    val intent = Intent(Intent.ACTION_VIEW, Uri.parse(post.video.trim()))
+                    val shareIntent = Intent.createChooser(intent, "App for video")
 
-                playBtn.setOnClickListener {
-                    it.context.startActivity(shareIntent)
+
+                    videoImg.setOnClickListener {
+                        it.context.startActivity(shareIntent)
+                    }
+
+                    playBtn.setOnClickListener {
+                        it.context.startActivity(shareIntent)
+                    }
                 }
 
                 menuBtn.setOnClickListener {
