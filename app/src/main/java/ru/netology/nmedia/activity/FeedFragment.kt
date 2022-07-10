@@ -43,7 +43,7 @@ class FeedFragment : Fragment() {
             }
 
             override fun onLike(post: Post) {
-                viewModel.likeById(post)
+                viewModel.like(post)
                 viewModel.loadPosts()
             }
 

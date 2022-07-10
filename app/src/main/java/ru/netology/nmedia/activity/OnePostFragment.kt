@@ -56,7 +56,7 @@ class OnePostFragment : Fragment() {
 
 
                 likesBtn.setOnClickListener {
-                    viewModel.likeById(post)
+                    viewModel.like(post)
                     viewModel.loadPosts()
                 }
 
