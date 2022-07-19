@@ -15,16 +15,18 @@ data class PostEntity(
     val likedByMe: Boolean = false,
     val likesCount: Int = 0,
     val shareCount: Int = 0,
-    val video: String = ""
+    val authorAvatar: String,
+    val video: String = "",
+
 ) {
     companion object {
         fun fromPost(post: Post): PostEntity =
             with(post) {
-                PostEntity(id, author, content, published, likedByMe, likes, shareCount)
+                PostEntity(id, author, content, published, likedByMe, likes, shareCount, authorAvatar)
             }
     }
 
 }
 
 fun PostEntity.toPost(): Post =
-    Post(id, author, content, published, likedByMe, likesCount, shareCount, video)
+    Post(id, author, content, published, likedByMe, likesCount, shareCount, authorAvatar, video)
