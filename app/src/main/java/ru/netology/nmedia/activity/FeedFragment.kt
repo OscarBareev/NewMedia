@@ -5,6 +5,8 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
+
 import androidx.core.view.isVisible
 import ru.netology.nmedia.viewmodel.PostViewModel
 import androidx.fragment.app.Fragment
@@ -80,12 +82,20 @@ class FeedFragment : Fragment() {
         })
 
 
+
+
         binding.listRV.adapter = adapter
 
         viewModel.data.observe(viewLifecycleOwner) { state ->
             adapter.submitList(state.posts)
             binding.progress.isVisible = state.loading
             binding.errorGroup.isVisible = state.error
+            if (state.error) {
+                Toast.makeText(activity,
+                    "Something wen wrong (error: "+ state.errorMessage + ")",
+                    Toast.LENGTH_LONG).show()
+            }
+
             binding.emptyText.isVisible = state.empty
         }
 

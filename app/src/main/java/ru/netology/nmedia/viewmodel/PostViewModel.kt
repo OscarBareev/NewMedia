@@ -42,7 +42,7 @@ class PostViewModel(application: Application) : AndroidViewModel(application) {
             }
 
             override fun onError(e: Exception) {
-                _data.postValue(FeedModel(error = true))
+                _data.postValue(FeedModel(error = true, errorMessage = e.message.toString()))
             }
         })
     }
@@ -57,7 +57,7 @@ class PostViewModel(application: Application) : AndroidViewModel(application) {
                 }
 
                 override fun onError(e: Exception) {
-                    _data.postValue(FeedModel(error = true))
+                    _data.postValue(FeedModel(error = true, errorMessage = e.message.toString()))
                 }
             })
 
@@ -81,7 +81,9 @@ class PostViewModel(application: Application) : AndroidViewModel(application) {
     fun like(post: Post) {
         repository.likeAsync(post, object : PostRepository.Callback<Unit> {
             override fun onError(e: Exception) {
-                _data.postValue(FeedModel(error = true))
+
+
+                _data.postValue(FeedModel(error = true, errorMessage = e.message.toString()))
             }
         })
     }
