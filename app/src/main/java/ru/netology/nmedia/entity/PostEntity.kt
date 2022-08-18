@@ -13,14 +13,17 @@ data class PostEntity(
     val content: String,
     val published: String,
     val likedByMe: Boolean = false,
-    val likesCount: Int = 0,
+    val likes: Int = 0,
     val shareCount: Int = 0,
     val authorAvatar: String,
     val video: String = "",
 
 ) {
+
+    fun toDto() = Post(id, author, content, published, likedByMe, likes, shareCount, authorAvatar)
+
     companion object {
-        fun fromPost(post: Post): PostEntity =
+        fun fromDto(post: Post): PostEntity =
             with(post) {
                 PostEntity(id, author, content, published, likedByMe, likes, shareCount, authorAvatar)
             }
@@ -29,4 +32,7 @@ data class PostEntity(
 }
 
 fun PostEntity.toPost(): Post =
-    Post(id, author, content, published, likedByMe, likesCount, shareCount, authorAvatar, video)
+    Post(id, author, content, published, likedByMe, likes, shareCount, authorAvatar, video)
+
+fun List<PostEntity>.toDto(): List<Post> = map(PostEntity::toDto)
+fun List<Post>.toEntity(): List<PostEntity> = map(PostEntity::fromDto)

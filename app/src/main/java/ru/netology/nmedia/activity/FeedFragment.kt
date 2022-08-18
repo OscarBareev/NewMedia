@@ -12,6 +12,7 @@ import ru.netology.nmedia.viewmodel.PostViewModel
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
+import com.google.android.material.snackbar.Snackbar
 import ru.netology.nmedia.R
 import ru.netology.nmedia.activity.NewPostFragment.Companion.textArg
 import ru.netology.nmedia.activity.OnePostFragment.Companion.longArg
@@ -46,7 +47,6 @@ class FeedFragment : Fragment() {
 
             override fun onLike(post: Post) {
                 viewModel.like(post)
-                viewModel.loadPosts()
             }
 
             override fun onRemove(post: Post) {
@@ -86,17 +86,25 @@ class FeedFragment : Fragment() {
 
         binding.listRV.adapter = adapter
 
+        viewModel.dataState.observe(viewLifecycleOwner) { state ->
+            binding.progress.isVisible = state.loading
+            binding.swiperefresh.isRefreshing = state.refreshing
+            if (state.error) {
+                Snackbar.make(binding.root, R.string.error_loading, Snackbar.LENGTH_LONG)
+                    .setAction(R.string.retry_loading) { viewModel.loadPosts() }
+                    .show()
+            }
+        }
+
+
+
         viewModel.data.observe(viewLifecycleOwner) { state ->
             adapter.submitList(state.posts)
-            binding.progress.isVisible = state.loading
-            binding.errorGroup.isVisible = state.error
-            if (state.error) {
-                Toast.makeText(activity,
-                    "Something wen wrong (error: "+ state.errorMessage + ")",
-                    Toast.LENGTH_LONG).show()
-            }
-
             binding.emptyText.isVisible = state.empty
+        }
+
+        binding.swiperefresh.setOnRefreshListener {
+            viewModel.refreshPosts()
         }
 
         binding.retryButton.setOnClickListener {
