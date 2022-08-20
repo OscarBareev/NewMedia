@@ -9,6 +9,7 @@ import ru.netology.nmedia.dto.Post
 import ru.netology.nmedia.entity.PostEntity
 import ru.netology.nmedia.entity.toDto
 import ru.netology.nmedia.entity.toEntity
+import ru.netology.nmedia.entity.toPostEntity
 import ru.netology.nmedia.error.ApiError
 import ru.netology.nmedia.error.NetworkError
 import ru.netology.nmedia.error.UnknownError
@@ -92,7 +93,7 @@ class PostRepositoryImpl(private val dao: PostDao) : PostRepository {
 
             val body = response.body() ?: throw ApiError(response.code(), response.message())
 
-            dao.likeById(body.id)
+            dao.insert(body.toPostEntity())
 
 
         } catch (e: IOException) {

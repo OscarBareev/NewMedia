@@ -16,7 +16,7 @@ data class PostEntity(
     val likes: Int = 0,
     val shareCount: Int = 0,
     val authorAvatar: String,
-    val video: String = "",
+    val video: String? = "",
 
 ) {
 
@@ -33,6 +33,9 @@ data class PostEntity(
 
 fun PostEntity.toPost(): Post =
     Post(id, author, content, published, likedByMe, likes, shareCount, authorAvatar, video)
+
+fun Post.toPostEntity():PostEntity =
+    PostEntity(id, author, content, published, likedByMe, likes, shareCount, authorAvatar, video)
 
 fun List<PostEntity>.toDto(): List<Post> = map(PostEntity::toDto)
 fun List<Post>.toEntity(): List<PostEntity> = map(PostEntity::fromDto)
