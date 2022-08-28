@@ -2,6 +2,11 @@ package ru.netology.nmedia.repository
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.map
+import kotlinx.coroutines.CancellationException
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.*
+import okhttp3.Dispatcher
 import retrofit2.Response
 import ru.netology.nmedia.api.ApiServiceHolder
 import ru.netology.nmedia.dao.PostDao
@@ -11,6 +16,7 @@ import ru.netology.nmedia.entity.toDto
 import ru.netology.nmedia.entity.toEntity
 import ru.netology.nmedia.entity.toPostEntity
 import ru.netology.nmedia.error.ApiError
+import ru.netology.nmedia.error.AppError
 import ru.netology.nmedia.error.NetworkError
 import ru.netology.nmedia.error.UnknownError
 import java.io.IOException
@@ -18,7 +24,9 @@ import java.io.IOException
 
 class PostRepositoryImpl(private val dao: PostDao) : PostRepository {
 
-    override val data = dao.getAll().map(List<PostEntity>::toDto)
+    override val data = dao.getAll()
+        .map(List<PostEntity>::toDto)
+        .flowOn(Dispatchers.Default)
 
 
     override suspend fun getAll() {
@@ -35,6 +43,38 @@ class PostRepositoryImpl(private val dao: PostDao) : PostRepository {
         } catch (e: Exception) {
             throw UnknownError
         }
+    }
+
+    override fun getNewerCount(id: Long): Flow<Int> = flow {
+        while (true) {
+
+            delay(10_000L)
+            val response = ApiServiceHolder.api.getNewer(id)
+            if (!response.isSuccessful) {
+                throw ApiError(response.code(), response.message())
+            }
+            val body = response.body() ?: throw ApiError(response.code(), response.message())
+
+            val transformBody: List<PostEntity> = body.toEntity()
+            transformBody.map {
+                it.read = false
+            }
+
+            dao.insert(transformBody)
+            emit(body.size)
+        }
+    }
+        .catch { e -> throw AppError.from(e) }
+        .flowOn(Dispatchers.Default)
+
+    override suspend fun updateShown() {
+
+        val newList: List<PostEntity> = dao.getNew().first()
+        newList.map {
+            it.read = true
+        }
+        dao.insert(newList)
+
     }
 
 

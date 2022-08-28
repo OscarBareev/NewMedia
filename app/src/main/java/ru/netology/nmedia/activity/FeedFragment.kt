@@ -1,13 +1,17 @@
 package ru.netology.nmedia.activity
 
 import android.content.Intent
+import android.opengl.Visibility
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
+import android.view.View.GONE
+import android.view.View.VISIBLE
 import android.view.ViewGroup
 import android.widget.Toast
 
 import androidx.core.view.isVisible
+import androidx.core.view.size
 import ru.netology.nmedia.viewmodel.PostViewModel
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -85,7 +89,6 @@ class FeedFragment : Fragment() {
 
 
         binding.listRV.adapter = adapter
-
         viewModel.dataState.observe(viewLifecycleOwner) { state ->
             binding.progress.isVisible = state.loading
             binding.swiperefresh.isRefreshing = state.refreshing
@@ -96,12 +99,23 @@ class FeedFragment : Fragment() {
             }
         }
 
-
-
         viewModel.data.observe(viewLifecycleOwner) { state ->
             adapter.submitList(state.posts)
             binding.emptyText.isVisible = state.empty
         }
+
+        viewModel.newerCount.observe(viewLifecycleOwner) { state ->
+            if (state > 0) binding.extendedFab.visibility = VISIBLE
+
+        }
+
+        binding.extendedFab.setOnClickListener {
+            viewModel.updateShown()
+            binding.listRV.smoothScrollToPosition(0)
+            binding.extendedFab.visibility = GONE
+        }
+
+
 
         binding.swiperefresh.setOnRefreshListener {
             viewModel.refreshPosts()

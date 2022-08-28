@@ -64,7 +64,7 @@ class PostViewHolder(
 
 
 
-            if (post.video?.trim()?.isBlank() == true) {
+            if (post.video?.trim()?.isBlank() == false) {
                 binding.group.visibility = VISIBLE
 
                 val intent = Intent(Intent.ACTION_VIEW, Uri.parse(post.video.trim()))
