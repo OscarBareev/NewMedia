@@ -1,5 +1,6 @@
 package ru.netology.nmedia.api
 
+import okhttp3.MultipartBody
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Call
@@ -9,6 +10,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.create
 import retrofit2.http.*
 import ru.netology.nmedia.BuildConfig
+import ru.netology.nmedia.dto.Media
 import ru.netology.nmedia.dto.Post
 import java.util.concurrent.TimeUnit
 
@@ -18,7 +20,7 @@ private val okHttpClient = OkHttpClient.Builder()
     .let {
         if (BuildConfig.DEBUG) {
             it.addInterceptor(HttpLoggingInterceptor().apply {
-                level = HttpLoggingInterceptor.Level.BODY
+                level = HttpLoggingInterceptor.Level.HEADERS
             })
         } else {
             it
@@ -55,6 +57,10 @@ interface ApiService {
 
     @DELETE("posts/{postId}")
     suspend fun deleteById(@Path("postId") postId: Long): Response<Unit>
+
+    @Multipart
+    @POST("media")
+    suspend fun upload(@Part media: MultipartBody.Part): Response<Media>
 
 }
 

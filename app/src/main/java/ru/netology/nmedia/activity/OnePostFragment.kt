@@ -71,7 +71,7 @@ class OnePostFragment : Fragment() {
                 }
 
 
-                if (!post.video.isNullOrBlank()) {
+            /*    if (!post.video.isNullOrBlank()) {
                     group.visibility = View.VISIBLE
                     val intent = Intent(Intent.ACTION_VIEW, Uri.parse(post.video.trim()))
                     val shareIntent = Intent.createChooser(intent, "App for video")
@@ -84,7 +84,9 @@ class OnePostFragment : Fragment() {
                     playBtn.setOnClickListener {
                         it.context.startActivity(shareIntent)
                     }
-                }
+
+
+                }*/
 
                 menuBtn.setOnClickListener {
                     PopupMenu(it.context, it).apply {

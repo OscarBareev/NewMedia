@@ -64,7 +64,7 @@ class PostViewHolder(
 
 
 
-            if (post.video?.trim()?.isBlank() == false) {
+/*            if (post.video?.trim()?.isBlank() == false) {
                 binding.group.visibility = VISIBLE
 
                 val intent = Intent(Intent.ACTION_VIEW, Uri.parse(post.video.trim()))
@@ -79,7 +79,7 @@ class PostViewHolder(
                 }
             } else {
                 binding.group.visibility = GONE
-            }
+            }*/
 
             itemView.setOnClickListener {
                 onInteractionListener.onCard(post)

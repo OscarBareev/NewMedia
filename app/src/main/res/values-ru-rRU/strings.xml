@@ -8,7 +8,6 @@
     <string name="share_icon">Иконка поделиться</string>
     <string name="views_screen">Просмотры</string>
     <string name="edit">Редактировать</string>
-    <string name="remove">Удалить</string>
     <string name="post_text">Текст поста</string>
     <string name="empty_content">Поле ввода не может быть пустым</string>
     <string name="edit_text">Редактировать текст</string>
@@ -23,12 +22,16 @@
     <string name="google_api_unavailable">Сервисы Goodle недоступны</string>
     <string name="notification_user_liked">%1$s поставил лайк посту %2$s</string>
     <string name="channel_remote_name">Уведомления с сервера</string>
-    <string name="channel_remote_description">Уведомления с удалённого сервера</string>
     <string name="default_notification">Вы получили новое уведомление</string>
     <string name="notification_new_post">%1$s создал новый пост</string>
     <string name="retry_loading">Повторить</string>
     <string name="empty_posts">Постов нет.\nЕсли создадите новый пост, то он появится здесь</string>
     <string name="error_loading">Что-то пошло не так. Попробуйте позднее</string>
     <string name="new_posts">Свежие записи</string>
+    <string name="channel_remote_description">Уведомления с удалённого сервера</string>
+    <string name="description_select_photo">Выбрать фото</string>
+    <string name="description_take_photo">Сделать фото</string>
+    <string name="description_photo">Фото</string>
+    <string name="remove">Удалить</string>
 
 </resources>
