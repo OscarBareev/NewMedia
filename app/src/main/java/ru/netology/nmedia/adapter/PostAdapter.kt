@@ -1,31 +1,36 @@
 package ru.netology.nmedia.adapter
 
-import android.content.Intent
-import android.net.Uri
+
+import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View.GONE
 import android.view.View.VISIBLE
 import android.view.ViewGroup
 import android.widget.PopupMenu
+import androidx.navigation.findNavController
+import androidx.navigation.fragment.NavHostFragment.Companion.findNavController
+
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import ru.netology.nmedia.R
+import ru.netology.nmedia.activity.NewPostFragment.Companion.textArg
 import ru.netology.nmedia.databinding.PostCardBinding
 import ru.netology.nmedia.dto.Post
 import ru.netology.nmedia.dto.transformCount
+
 
 interface OnInteractionListener {
     fun onLike(post: Post) {}
     fun onShare(post: Post) {}
     fun onEdit(post: Post) {}
     fun onRemove(post: Post) {}
-    fun onCard(post: Post){}
+    fun onCard(post: Post) {}
 }
 
 class PostAdapter(
-    private val onInteractionListener: OnInteractionListener
+    private val onInteractionListener: OnInteractionListener,
 ) : ListAdapter<Post, PostViewHolder>(PostDiffCallBack()) {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PostViewHolder {
         val binding = PostCardBinding.inflate(LayoutInflater.from(parent.context), parent, false)
@@ -41,15 +46,15 @@ class PostAdapter(
 
 class PostViewHolder(
     private val binding: PostCardBinding,
-    private val onInteractionListener: OnInteractionListener
+    private val onInteractionListener: OnInteractionListener,
 ) : RecyclerView.ViewHolder(binding.root) {
     fun bind(post: Post) {
         binding.apply {
+
+
             authorTxt.text = post.author
             publishedTxt.text = post.published
             contentTxt.text = post.content
-
-
             likesBtn.isChecked = post.likedByMe
             likesBtn.text = transformCount(post.likes)
             shareBtn.text = transformCount(post.shareCount)
@@ -63,32 +68,44 @@ class PostViewHolder(
             }
 
 
-
-/*            if (post.video?.trim()?.isBlank() == false) {
+            if (post.attachment != null) {
                 binding.group.visibility = VISIBLE
 
-                val intent = Intent(Intent.ACTION_VIEW, Uri.parse(post.video.trim()))
-                val shareIntent = Intent.createChooser(intent, "App for video")
+                val attUrl = "http://10.0.2.2:9999/media/${post.attachment.url}"
+                Glide.with(binding.attImg)
+                    .load(attUrl)
+                    .timeout(10_000)
+                    .into(binding.attImg)
 
-                videoImg.setOnClickListener {
-                    it.context.startActivity(shareIntent)
+
+                binding.attImg.setOnClickListener {view ->
+
+
+                    view.findNavController()
+                        .navigate(
+                            R.id.action_feedFragment_to_onlyImageFragment,
+                            Bundle().apply {
+                                textArg = attUrl
+                            }
+                        )
                 }
 
-                playBtn.setOnClickListener {
-                    it.context.startActivity(shareIntent)
-                }
+
+
+
             } else {
                 binding.group.visibility = GONE
-            }*/
+            }
+
 
             itemView.setOnClickListener {
                 onInteractionListener.onCard(post)
             }
 
 
-            val url = "http://10.0.2.2:9999/avatars/${post.authorAvatar}"
+            val avatarUrl = "http://10.0.2.2:9999/avatars/${post.authorAvatar}"
             Glide.with(binding.avatarImg)
-                .load(url)
+                .load(avatarUrl)
                 .placeholder(R.drawable.ic_baseline_android_24)
                 .error(R.drawable.ic_baseline_error_24)
                 .circleCrop()
@@ -116,12 +133,8 @@ class PostViewHolder(
                         }
                     }
                 }.show()
+
             }
-
-
-
-
-
 
 
         }

@@ -10,7 +10,9 @@ import android.widget.PopupMenu
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.map
+import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
+import com.bumptech.glide.Glide
 import ru.netology.nmedia.R
 import ru.netology.nmedia.activity.NewPostFragment.Companion.textArg
 import ru.netology.nmedia.databinding.FragmentOnePostBinding
@@ -38,6 +40,7 @@ class OnePostFragment : Fragment() {
 
         binding.onePostContainer.removeAllViews()
         PostCardBinding.inflate(layoutInflater, binding.onePostContainer, true).apply {
+
             viewModel.data.map { state ->
                 state.posts.find { it.id == postId }
             }.observe(viewLifecycleOwner) { post ->
@@ -71,22 +74,41 @@ class OnePostFragment : Fragment() {
                 }
 
 
-            /*    if (!post.video.isNullOrBlank()) {
+                if (post.attachment != null) {
                     group.visibility = View.VISIBLE
-                    val intent = Intent(Intent.ACTION_VIEW, Uri.parse(post.video.trim()))
-                    val shareIntent = Intent.createChooser(intent, "App for video")
+
+                    val attUrl = "http://10.0.2.2:9999/media/${post.attachment.url}"
+                    Glide.with(attImg)
+                        .load(attUrl)
+                        .timeout(10_000)
+                        .into(attImg)
 
 
-                    videoImg.setOnClickListener {
-                        it.context.startActivity(shareIntent)
+                    attImg.setOnClickListener {view ->
+
+
+                        view.findNavController()
+                            .navigate(
+                                R.id.action_onePostFragment_to_onlyImageFragment,
+                                Bundle().apply {
+                                    textArg = attUrl
+                                }
+                            )
                     }
+                } else {
+                    group.visibility = View.GONE
+                }
 
-                    playBtn.setOnClickListener {
-                        it.context.startActivity(shareIntent)
-                    }
 
+                val avatarUrl = "http://10.0.2.2:9999/avatars/${post.authorAvatar}"
+                Glide.with(avatarImg)
+                    .load(avatarUrl)
+                    .placeholder(R.drawable.ic_baseline_android_24)
+                    .error(R.drawable.ic_baseline_error_24)
+                    .circleCrop()
+                    .timeout(10_000)
+                    .into(avatarImg)
 
-                }*/
 
                 menuBtn.setOnClickListener {
                     PopupMenu(it.context, it).apply {
@@ -117,6 +139,11 @@ class OnePostFragment : Fragment() {
                         }
                     }.show()
                 }
+
+
+
+
+
             }
         }
 

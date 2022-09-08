@@ -78,8 +78,8 @@
         android:id="@+id/group"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:visibility="gone"
-        app:constraint_referenced_ids="middleBarrier,videoImg, playBtn" />
+        android:visibility="visible"
+        app:constraint_referenced_ids="middleBarrier,attImg" />
 
 
     <androidx.constraintlayout.widget.Barrier
@@ -91,31 +91,16 @@
         app:constraint_referenced_ids="contentTxt" />
 
     <ImageView
-        android:id="@+id/videoImg"
+        android:id="@+id/attImg"
         android:layout_width="match_parent"
-        android:layout_height="230dp"
+        android:layout_height="wrap_content"
         android:background="#ffd942"
         android:contentDescription="@string/random_image"
-        android:src="@drawable/ic_baseline_check_box_outline_blank_24"
         app:layout_constraintBottom_toTopOf="@id/lowBarrier"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/middleBarrier"
-        app:layout_constraintVertical_bias="0.0" />
-
-    <com.google.android.material.button.MaterialButton
-
-        android:id="@+id/playBtn"
-        style="@style/Widget.App.Button.OutlinedButton.IconOnly"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:background="@android:color/transparent"
-        app:icon="@drawable/ic_baseline_play_circle_outline_24"
-        app:iconTint="@color/selector_like_color"
-        app:layout_constraintBottom_toBottomOf="@id/videoImg"
-        app:layout_constraintEnd_toEndOf="@id/videoImg"
-        app:layout_constraintStart_toStartOf="@id/videoImg"
-        app:layout_constraintTop_toTopOf="@id/videoImg" />
+        tools:src="@drawable/ic_baseline_check_box_outline_blank_24" />
 
 
     <androidx.constraintlayout.widget.Barrier
