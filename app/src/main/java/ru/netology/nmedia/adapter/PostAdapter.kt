@@ -3,10 +3,12 @@ package ru.netology.nmedia.adapter
 
 import android.os.Bundle
 import android.view.LayoutInflater
-import android.view.View.GONE
-import android.view.View.VISIBLE
+import android.view.View
+import android.view.View.*
 import android.view.ViewGroup
 import android.widget.PopupMenu
+import androidx.core.view.isInvisible
+import androidx.core.view.isVisible
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment.Companion.findNavController
 
@@ -78,7 +80,7 @@ class PostViewHolder(
                     .into(binding.attImg)
 
 
-                binding.attImg.setOnClickListener {view ->
+                binding.attImg.setOnClickListener { view ->
 
 
                     view.findNavController()
@@ -89,9 +91,6 @@ class PostViewHolder(
                             }
                         )
                 }
-
-
-
 
             } else {
                 binding.group.visibility = GONE
@@ -113,7 +112,7 @@ class PostViewHolder(
                 .into(binding.avatarImg)
 
 
-
+            menuBtn.visibility = if(post.ownedByMe) VISIBLE else INVISIBLE
             menuBtn.setOnClickListener {
                 PopupMenu(it.context, it).apply {
                     inflate(R.menu.options_post)
