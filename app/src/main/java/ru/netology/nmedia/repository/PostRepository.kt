@@ -16,5 +16,6 @@ interface PostRepository {
     suspend fun removeById(id: Long)
     suspend fun like(post: Post)
     suspend fun upload(upload: MediaUpload): Media
+    suspend fun updateUser(login: String, pass: String)
 
 }

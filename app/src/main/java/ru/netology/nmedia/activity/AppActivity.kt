@@ -8,6 +8,7 @@ import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.findNavController
+import androidx.navigation.fragment.findNavController
 import com.google.android.gms.common.ConnectionResult
 import com.google.android.gms.common.GoogleApiAvailability
 import com.google.firebase.messaging.FirebaseMessaging
@@ -66,13 +67,11 @@ class AppActivity : AppCompatActivity(R.layout.activity_app) {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
             R.id.signin -> {
-                // TODO: just hardcode it, implementation must be in homework
-                AppAuth.getInstance().setAuth(5, "x-token")
+                findNavController(R.id.nav_host_fragment).navigate(R.id.action_feedFragment_to_signInFragment)
                 true
             }
             R.id.signup -> {
-                // TODO: just hardcode it, implementation must be in homework
-                AppAuth.getInstance().setAuth(5, "x-token")
+                findNavController(R.id.nav_host_fragment).navigate(R.id.action_feedFragment_to_signInFragment)
                 true
             }
             R.id.signout -> {
@@ -83,11 +82,6 @@ class AppActivity : AppCompatActivity(R.layout.activity_app) {
             else -> super.onOptionsItemSelected(item)
         }
     }
-
-
-
-
-
 
 
     private fun checkGoogleApiAvailability() {
@@ -103,7 +97,6 @@ class AppActivity : AppCompatActivity(R.layout.activity_app) {
             Toast.makeText(this@AppActivity, R.string.google_api_unavailable, Toast.LENGTH_LONG)
                 .show()
         }
-
 
 
     }

@@ -5,7 +5,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.asLiveData
 import kotlinx.coroutines.Dispatchers
 import ru.netology.nmedia.auth.AppAuth
-import ru.netology.nmedia.dto.AuthState
+import ru.netology.nmedia.auth.AuthState
 
 class AuthViewModel : ViewModel() {
     val data: LiveData<AuthState> = AppAuth.getInstance()

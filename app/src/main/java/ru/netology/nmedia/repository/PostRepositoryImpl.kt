@@ -11,6 +11,7 @@ import okhttp3.MultipartBody
 import okhttp3.RequestBody.Companion.asRequestBody
 import retrofit2.Response
 import ru.netology.nmedia.api.ApiServiceHolder
+import ru.netology.nmedia.auth.AppAuth
 import ru.netology.nmedia.dao.PostDao
 import ru.netology.nmedia.dto.Attachment
 import ru.netology.nmedia.dto.Media
@@ -105,8 +106,6 @@ class PostRepositoryImpl(private val dao: PostDao) : PostRepository {
     }
 
 
-
-
     override suspend fun removeById(id: Long) {
         dao.removeById(id)
 
@@ -143,7 +142,6 @@ class PostRepositoryImpl(private val dao: PostDao) : PostRepository {
             val body = response.body() ?: throw ApiError(response.code(), response.message())
 
             dao.insert(body.toPostEntity())
-           
 
 
         } catch (e: IOException) {
@@ -157,7 +155,8 @@ class PostRepositoryImpl(private val dao: PostDao) : PostRepository {
         try {
             val media = upload(upload)
             // TODO: add support for other types
-            val postWithAttachment = post.copy(attachment = Attachment(media.id, AttachmentType.IMAGE))
+            val postWithAttachment =
+                post.copy(attachment = Attachment(media.id, AttachmentType.IMAGE))
             save(postWithAttachment)
         } catch (e: AppError) {
             throw e
@@ -187,5 +186,26 @@ class PostRepositoryImpl(private val dao: PostDao) : PostRepository {
             throw UnknownError
         }
     }
+
+    override suspend fun updateUser(login: String, pass: String) {
+        try {
+            val response = ApiServiceHolder.api.updateUser(login, pass)
+
+            if (!response.isSuccessful) {
+                throw ApiError(response.code(), response.message())
+            }
+
+            val body = response.body() ?: throw ApiError(response.code(), response.message())
+
+            body.token?.let { AppAuth.getInstance().setAuth(body.id, it) }
+
+
+        } catch (e: IOException) {
+            throw NetworkError
+        } catch (e: Exception) {
+            throw UnknownError
+        }
+    }
+
 
 }
