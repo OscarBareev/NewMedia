@@ -24,9 +24,14 @@ class SignInViewModel(application: Application) : AndroidViewModel(application) 
     fun updateUser(login: String, pass: String) = viewModelScope.launch {
         try {
             repository.updateUser(login, pass)
-            _authModelState.value = AuthModelState(isSignIn = true)
+            _authModelState.value = AuthModelState(isAccessible = true)
         } catch (e: Exception) {
-            _authModelState.value = AuthModelState(isSignIn = false, error = true)
+            _authModelState.value = AuthModelState(isAccessible = false, error = true)
         }
+    }
+
+
+    fun cleanState() = viewModelScope.launch {
+        _authModelState.value = AuthModelState()
     }
 }

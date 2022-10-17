@@ -34,7 +34,10 @@ class SignInFragment : Fragment() {
         }
 
         viewModel.authModelState.observe(viewLifecycleOwner) { state ->
-            if (state.isSignIn) findNavController().navigateUp()
+            if (state.isAccessible) {
+                findNavController().navigateUp()
+                viewModel.cleanState()
+            }
             if (state.error) {
                 Toast.makeText(activity, "Wrong login or password", Toast.LENGTH_LONG).show()
             }
