@@ -12,6 +12,7 @@ import ru.netology.nmedia.auth.AppAuth
 import ru.netology.nmedia.auth.AuthState
 import ru.netology.nmedia.dto.Media
 import ru.netology.nmedia.dto.Post
+import ru.netology.nmedia.dto.PushToken
 import java.util.concurrent.TimeUnit
 
 private const val BASE_URL = "http://10.0.2.2:9999/api/slow/"
@@ -48,6 +49,9 @@ private val retrofit = Retrofit.Builder()
 
 interface ApiService {
 
+    @POST("users/push-tokens")
+    suspend fun save(@Body token: PushToken): Response<Unit>
+
     @GET("posts")
     suspend fun getAll(): Response<List<Post>>
 
@@ -79,6 +83,8 @@ interface ApiService {
         @Field("login") login: String,
         @Field("pass") pass: String,
     ): Response<AuthState>
+
+
 
 }
 

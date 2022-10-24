@@ -10,6 +10,7 @@ import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
 import com.google.gson.Gson
 import ru.netology.nmedia.R
+import ru.netology.nmedia.auth.AppAuth
 import kotlin.random.Random
 
 
@@ -35,10 +36,25 @@ class FCMService : FirebaseMessagingService() {
 
     override fun onMessageReceived(message: RemoteMessage) {
 
+
         message.data[action]?.let {
 
             if (!enumContains<Action>(it)) {
-                handleDefault()
+
+
+                val notify: Notify = gson.fromJson(message.data[content], Notify::class.java)
+                val myId = AppAuth.getInstance().authStateFlow.value.id
+                val recipientId = notify.recipientId
+
+
+                when {
+                    recipientId != 0L && recipientId == myId -> handleNotify(notify)
+                    recipientId == 0L && recipientId != myId -> AppAuth.getInstance()
+                        .sendPushToken()
+                    recipientId != 0L && recipientId != myId -> AppAuth.getInstance()
+                        .sendPushToken()
+                    recipientId == null -> handleNotify(notify)
+                }
                 return@let
             }
 
@@ -48,10 +64,12 @@ class FCMService : FirebaseMessagingService() {
                     NewPost::class.java))
             }
         }
+
+
     }
 
     override fun onNewToken(token: String) {
-        println(token)
+        AppAuth.getInstance().sendPushToken(token)
     }
 
     private fun handleNewPost(content: NewPost) {
@@ -100,6 +118,21 @@ class FCMService : FirebaseMessagingService() {
         NotificationManagerCompat.from(this)
             .notify(Random.nextInt(100_000), notification)
     }
+
+
+    private fun handleNotify(content: Notify) {
+        val notification = NotificationCompat.Builder(this, channelId)
+            .setSmallIcon(R.drawable.ic_notification)
+            .setContentTitle(getString(R.string.default_notification))
+            .setContentText(content.content)
+            .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+            .build()
+
+        NotificationManagerCompat.from(this)
+            .notify(Random.nextInt(100_000), notification)
+    }
+
+
 }
 
 
@@ -125,4 +158,9 @@ data class NewPost(
     val postId: Long,
     val postAuthor: String,
     val postContent: String,
+)
+
+data class Notify(
+    val content: String,
+    val recipientId: Long?,
 )
